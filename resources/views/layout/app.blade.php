@@ -10,7 +10,9 @@
 <div class="container">
     @yield('container')
 </div>
-
+<script>
+    var BASE_URL = "{{url('/')}}";
+</script>
 <script src="{{asset('js/app.js')}}" type="text/javascript"></script>
 </body>
 </html>

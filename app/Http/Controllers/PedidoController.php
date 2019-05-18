@@ -85,14 +85,20 @@ class PedidoController extends Controller
                             $iten = new Iten();
                         }
 
-                        $iten->produto_id = intval($i['produto_id']);
+                        //Retornando o objeto do produto
+                        $produto = Produto::find($i['produto_id']);
+
+                        //Salvando item por item
+                        $iten->pedido_id = intval($pedido->id);
+                        $iten->produto_id = intval($produto->id);
                         $iten->qtd = intval($i['qtd']);
-                        $iten->total = intval($i['qtd']) * floatval($i['total']);
+                        $iten->total = intval($i['qtd']) * floatval($produto->preco);
                         $iten->save();
 
                         $valorTotalPedido += $iten->total;
                     }
 
+                    //Deleta os itens que foram removidos da lista
                     if (count($arrayIdItens) > 0) {
                         foreach ($arrayIdItens as $i) {
                             Iten::find($i)->delete();
@@ -106,9 +112,26 @@ class PedidoController extends Controller
                 }
 
             } else { //Insert
+
+                $pedido->total = 0;
+                $pedido->save();
+
+                //Percorre item por item vindo da tela
+                foreach ($vetor['jsonItens']['iten'] as $i) {
+                    $produto = Produto::find($i['produto_id']);
+                    $iten = new Iten();
+
+                    $iten->pedido_id = intval($pedido->id);
+                    $iten->produto_id = intval($produto->id);
+                    $iten->qtd = intval($i['qtd']);
+                    $iten->total = intval($i['qtd']) * floatval($produto->preco);
+                    $iten->save();
+
+                    $valorTotalPedido += $iten->total;
+                }
+
                 $response["mensagem"] = SUCESSO_REGISTRO_CADASTRAR;
             }
-
 
             $pedido->total = $valorTotalPedido;
             $pedido->save();
