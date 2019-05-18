@@ -1,6 +1,13 @@
 @extends('layout.app')
 
 @section('container')
+    <br>
+    <div class="row">
+        <div class="col-md-6">
+            <a href="{{url('/')}}">Página inicial</a>
+        </div>
+    </div>
+    <hr>
     <fieldset>
         <legend><h3 class="animated pulse">Cadastro de produtos</h3></legend>
         <form id="cadProdutoForm" method="POST">
@@ -24,7 +31,8 @@
 
                 <div class="form-group col-md-6">
                     <label for="cadProdutoPreco">Preço: </label>
-                    <input type="text" class="form-control" id="cadProdutoPreco" name="cadProdutoPreco" placeholder="Informe no formato: 0.00">
+                    <input type="text" class="form-control" id="cadProdutoPreco" name="cadProdutoPreco"
+                           placeholder="Informe no formato: 0.00">
                 </div>
             </div>
             <div class="form-row">
@@ -57,15 +65,13 @@
 
 @endsection
 <script>
-    var BASE_URL = "{{Request::url()}}";
+    var BASE_URL = "{{url('/')}}";
     document.addEventListener("DOMContentLoaded", function () {
-
 
         $('#cadProdutoForm').on('submit', function (e) {
             e.preventDefault();
             salvar($(this));
         });
-
 
         getProdutos(montarListaDeProdutos);
     });
@@ -80,6 +86,7 @@
             data: $form.serialize()
         }).done(function (x) {
             toastr.success(x.mensagem);
+            limparFormulario();
             getProdutos(montarListaDeProdutos);
         })
     }
@@ -133,5 +140,10 @@
             toastr.success(x.mensagem);
             getProdutos(montarListaDeProdutos);
         })
+    }
+
+    function limparFormulario() {
+        $('form').trigger("reset");
+        $('#cadProdutoId').val(0);
     }
 </script>

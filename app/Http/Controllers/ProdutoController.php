@@ -10,6 +10,15 @@ class ProdutoController extends Controller
 {
 
     /**
+     * Exibir a view de produto
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function index()
+    {
+        return view('container/produto');
+    }
+
+    /**
      * Retorna todos os produtos cadastrados
      * @param null $id
      * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response

@@ -11,6 +11,15 @@ class PedidoController extends Controller
 {
 
     /**
+     * Exibir a view de pedido
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function index()
+    {
+        return view('container/pedido');
+    }
+
+    /**
      * Retorna todos os pedidos cadastrados
      * @param null $id
      * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
@@ -54,6 +63,8 @@ class PedidoController extends Controller
                     $pedidos = Pedido::with(['iten.produto'])->where('id', $id)->get();
 
                     $arrayIdItens = [];
+
+                    //Cria um array de ids de todos os itens cadastrados
                     if (count($pedidos) > 0) {
                         foreach ($pedidos[0]->iten as $i) {
                             array_push($arrayIdItens, $i->id);
@@ -63,7 +74,16 @@ class PedidoController extends Controller
                     //Percorre item por item vindo da tela
                     foreach ($vetor['jsonItens']['iten'] as $i) {
 
-                        $iten = (isset($id) && is_numeric($i['id']) && intval($i['id']) > 0) ? Iten::find($i['id']) : new Iten();
+                        //Update de itens
+                        if (isset($id) && is_numeric($i['id']) && intval($i['id']) > 0) {
+
+                            $keyPosicao = array_search(intval($i['id']), $arrayIdItens);//Retorna a posição no array de ids cadastrados caso encontre
+                            if (is_numeric($keyPosicao)) unset($arrayIdItens[$keyPosicao]);//Remove do array os ids já cadastrados
+
+                            $iten = Iten::find($i['id']);
+                        } else {//Insert de itens
+                            $iten = new Iten();
+                        }
 
                         $iten->produto_id = intval($i['produto_id']);
                         $iten->qtd = intval($i['qtd']);
@@ -73,6 +93,11 @@ class PedidoController extends Controller
                         $valorTotalPedido += $iten->total;
                     }
 
+                    if (count($arrayIdItens) > 0) {
+                        foreach ($arrayIdItens as $i) {
+                            Iten::find($i)->delete();
+                        }
+                    }
 
                     $response["mensagem"] = SUCESSO_REGISTRO_ATUALIZAR;
                 } else {
