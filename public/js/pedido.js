@@ -47,6 +47,8 @@ function montarListaDePedidos(x) {
                  <tr>
                     <th scope="row">${v.id}</th>
                     <td>${v.total}</td>
+                    <td>${v.created_at}</td>
+                    <td>${v.updated_at}</td>
                     <td>
                         <button type="button" class="btn btn-warning btn-sm" onclick="getPedidos(setPedidoForm, ${v.id})">Editar</button>
                         <button type="button" class="btn btn-danger btn-sm" onclick="deletar(${v.id})">Excluir</button>

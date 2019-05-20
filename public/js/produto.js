@@ -40,6 +40,8 @@ function montarListaDeProdutos(x) {
                     <td>${v.nome}</td>
                     <td>${v.descricao}</td>
                     <td>${v.preco}</td>
+                    <td>${v.created_at}</td>
+                    <td>${v.updated_at}</td>
                     <td>
                         <button type="button" class="btn btn-warning btn-sm" onclick="getProdutos(setProdutoForm, ${v.id})">Editar</button>
                         <button type="button" class="btn btn-danger btn-sm" onclick="deletar(${v.id})">Excluir</button>

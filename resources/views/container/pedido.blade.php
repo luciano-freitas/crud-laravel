@@ -23,6 +23,8 @@
                 <tr>
                     <th scope="col">id</th>
                     <th scope="col">Total</th>
+                    <th scope="col">Data de cadastro</th>
+                    <th scope="col">Data de atualização</th>
                     <th scope="col">Ação</th>
                 </tr>
                 </thead>

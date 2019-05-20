@@ -54,6 +54,8 @@
                     <th scope="col">Nome</th>
                     <th scope="col">Descrição</th>
                     <th scope="col">Preço</th>
+                    <th scope="col">Data de cadastro</th>
+                    <th scope="col">Data de atualização</th>
                     <th scope="col">Ação</th>
                 </tr>
                 </thead>
